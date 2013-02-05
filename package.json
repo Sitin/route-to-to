@@ -1,0 +1,16 @@
+{
+    "name":            "tokorovo",
+    "version":         "0.0.1",
+    "private":         true,
+    "scripts":         {
+        "test": "cake test"
+    },
+    "dependencies":    {
+        "lodash":         "~1.0.0"
+    },
+    "devDependencies": {
+        "chai":       "~1.4.2",
+        "chai-spies": "~0.5.1",
+        "mocha":      "~1.8.0"
+    }
+}
