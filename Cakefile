@@ -1,5 +1,6 @@
 {exec, spawn} = require 'child_process'
 
+
 task 'compile', 'Compiles all coffee files', ->
   compile()
 
@@ -12,6 +13,10 @@ task 'doc', 'Document CoffeeScript', ->
 task 'test', 'Test source code', ->
   compile -> test()
 
+task 'clean', 'Remove compiled files (currently just removes all .js files)', ->
+  compile -> clean()
+
+
 compile = (callback) ->
   exec 'coffee -c .', (err, stdout, stderr) ->
     if not err
@@ -21,6 +26,7 @@ compile = (callback) ->
       console.log "Compilation performed with errors."
       console.log '[compile:error:] %s%', stderr if stderr
     callback?()
+
 
 watch = (callback) ->
   console.log "Watching for coffee files changes:"
@@ -37,14 +43,20 @@ watch = (callback) ->
 
   callback?()
 
+
 doc = (callback) ->
   exec 'codo', (err, stdout, stderr) ->
     console.log "[Codo:]\n%s", stdout
     throw console.log "[Codo:error:]\n%s", stderr if stderr
     callback?()
 
-stop = (callback) ->
-  process.exit 0
+
+clean = (callback) ->
+  exec 'find . -name "*.js" -maxdepth 2 -print -delete', (err, stdout, stderr) ->
+    console.log "[Clean:]\n%s", stdout
+    throw console.log "[Clean:error:]\n%s", stderr if stderr
+    callback?()
+
 
 test = (callback) ->
   console.log "Perform tests:"
